@@ -13,7 +13,7 @@ defmodule Conductor.Plugs.Authorize do
     cond do
       Enum.any?(given_scopes, &(&1 in authorized_scopes)) ->
         conn
-      Application.get_env(:conductor, :on_auth_failure) == :response ->
+      Application.get_env(:conductor, :on_auth_failure) == :send_resp ->
         conn
         |> Plug.Conn.send_resp(403, "")
         |> Plug.Conn.halt()
