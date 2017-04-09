@@ -10,12 +10,15 @@ defmodule Conductor.Plugs.Authorize do
     authorized_scopes = Enum.reject([scope, root_scope], &is_nil/1)
     given_scopes = Map.get(conn.assigns, :scopes, [])
 
-    if Enum.any?(given_scopes, &(&1 in authorized_scopes)) do
-      conn
-    else
-      conn
-      |> Plug.Conn.send_resp(403, "")
-      |> Plug.Conn.halt()
+    cond do
+      Enum.any?(given_scopes, &(&1 in authorized_scopes)) ->
+        conn
+      Application.get_env(:conductor, :on_auth_failure) == :response ->
+        conn
+        |> Plug.Conn.send_resp(403, "")
+        |> Plug.Conn.halt()
+      :else ->
+        raise Conductor.Error.new(403, "")
     end
   end
 end
