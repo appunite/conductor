@@ -21,7 +21,4 @@ defmodule Support.Router do
 
     resources "/example", ExampleController, singleton: true, only: [:show]
   end
-
-
-
 end

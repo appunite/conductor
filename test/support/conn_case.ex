@@ -11,7 +11,7 @@ defmodule Support.ConnCase do
   end
 
   setup _tags do
-    :ets.new(Support.Endpoint, [:set, :public, :named_table, read_concurrency: true])
+    :ets.new(Support.Endpoint, [:set, :protected, :named_table, read_concurrency: true])
     :ets.insert_new(Support.Endpoint, {:secret_key_base, "test"})
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
