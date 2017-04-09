@@ -11,7 +11,7 @@ defmodule Conductor do
     authorize = Module.get_attribute(env.module, :authorize)
 
     if authorize do
-      mark = %Conductor.Mark{action: name, scope: authorize}
+      mark = %Conductor.Mark{action: name, scope: authorize[:scope]}
 
       Module.put_attribute(env.module, :conductor_marks, mark)
       Module.delete_attribute(env.module, :authorize)
