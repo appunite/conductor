@@ -1,4 +1,6 @@
 defmodule Conductor.Error do
+  @moduledoc false
+
   defexception [:status, :response, :message]
 
   def new(status, response) do

@@ -1,4 +1,6 @@
 defmodule Conductor.Plugs.Authorize do
+  @moduledoc false
+
   @behaviour Plug
 
   def init(scope), do: scope

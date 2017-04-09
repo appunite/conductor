@@ -1,4 +1,6 @@
 defmodule Conductor do
+  @moduledoc false
+
   defmacro __using__(_opts) do
     quote do
       Module.register_attribute(__MODULE__, :conductor_marks, accumulate: true)
