@@ -54,7 +54,7 @@ You can register scope that will have full access everywhere
 
 ```elixir
   config :conductor,
-    root_scope: "admin"
+    root_scopes: ["admin"]
 ```
 
 ## Adding scopes
@@ -95,7 +95,7 @@ This can be changed by following config
 ```elixir
   #config
   config :conductor,
-    root_scope: "root_scope",
+    root_scopes: ["root_scope"],
     on_auth_error: :send_resp
 
   #router
@@ -129,7 +129,7 @@ This can be changed by following config
 
   def action3(conn, _params), do: conn |> send_resp(200, "")
 
-  @authorize scope: "other"
+  @authorize scopes: ["other", "unused"]
   def action4(conn, _params), do: conn |> send_resp(200, "")
 ```
 

@@ -1,7 +1,7 @@
 defmodule Conductor.Mixfile do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.2.0"
 
   def project do
     [
@@ -33,12 +33,12 @@ defmodule Conductor.Mixfile do
   end
 
   defp description do
-    "Simple package for authorization."
+    "Simple package for api authorization."
   end
 
   defp docs do
     [
-      extras: ["README.md"],
+      extras: ["README.md", "CHANGELOG.md"],
       main: "readme"
     ]
   end
