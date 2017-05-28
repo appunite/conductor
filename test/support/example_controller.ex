@@ -11,6 +11,11 @@ defmodule Support.ExampleController do
     conn |> send_resp(201, "")
   end
 
+  @authorize scopes: ["update1", "update2"]
+  def update(conn, _params) do
+    conn |> send_resp(200, "")
+  end
+
   def delete(conn, _params) do
     conn |> send_resp(200, "")
   end

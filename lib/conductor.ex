@@ -13,7 +13,14 @@ defmodule Conductor do
     authorize = Module.get_attribute(env.module, :authorize)
 
     if authorize do
-      mark = %Conductor.Mark{action: name, scope: authorize[:scope]}
+      mark = cond do
+        Keyword.get(authorize, :scope) && Keyword.get(authorize, :scopes) ->
+          raise Conductor.Error, "cannot use both :scope and :scopes in single @authorization"
+        scope = Keyword.get(authorize, :scope)->
+          %Conductor.Mark{action: name, scopes: [scope]}
+        scopes = Keyword.get(authorize, :scopes) ->
+          %Conductor.Mark{action: name, scopes: scopes}
+      end
 
       Module.put_attribute(env.module, :conductor_marks, mark)
       Module.delete_attribute(env.module, :authorize)
@@ -33,9 +40,9 @@ defmodule Conductor do
     end
   end
 
-  defp handle_mark(%Conductor.Mark{action: action, scope: scope}) do
+  defp handle_mark(%Conductor.Mark{action: action, scopes: scopes}) do
     quote do
-      plug Conductor.Plugs.Authorize, unquote(scope) when var!(action) in [unquote(action)]
+      plug Conductor.Plugs.Authorize, unquote(scopes) when var!(action) in [unquote(action)]
     end
   end
 
@@ -43,7 +50,7 @@ defmodule Conductor do
     marked_actions = Enum.map(marks, &Map.get(&1, :action))
 
     quote do
-      plug Conductor.Plugs.Authorize, nil when not var!(action) in unquote(marked_actions)
+      plug Conductor.Plugs.Authorize, [] when not var!(action) in unquote(marked_actions)
     end
   end
 end

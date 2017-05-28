@@ -13,7 +13,7 @@ defmodule Support.Router do
   scope "/api", Support do
     pipe_through :api
 
-    resources "/example", ExampleController, singleton: true, only: [:create, :delete]
+    resources "/example", ExampleController, singleton: true, only: [:create, :update, :delete]
   end
 
   scope "/api", Support do

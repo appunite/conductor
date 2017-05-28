@@ -1,5 +1,5 @@
 defmodule Conductor.Mark do
   @moduledoc false
 
-  defstruct [:action, :scope]
+  defstruct [:action, :scopes]
 end

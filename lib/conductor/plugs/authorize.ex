@@ -3,13 +3,13 @@ defmodule Conductor.Plugs.Authorize do
 
   @behaviour Plug
 
-  def init(scope), do: scope
+  def init(scopes), do: scopes
 
   def call(%Plug.Conn{assigns: %{conductor_skip_authorization: true}} = conn, _scope), do: conn
-  def call(%Plug.Conn{} = conn, scope) do
-    root_scope = Application.get_env(:conductor, :root_scope)
+  def call(%Plug.Conn{} = conn, scopes) do
+    root_scopes = Application.get_env(:conductor, :root_scopes, [])
 
-    authorized_scopes = Enum.reject([scope, root_scope], &is_nil/1)
+    authorized_scopes = scopes ++ root_scopes
     given_scopes = Map.get(conn.assigns, :scopes, [])
 
     cond do

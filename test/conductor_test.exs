@@ -14,6 +14,12 @@ defmodule ConductorTest do
       assert response(conn, 403)
     end
 
+    test "PATCH update", %{conn: conn} do
+      conn = patch conn, example_path(conn, :update)
+
+      assert response(conn, 403)
+    end
+
     test "DELETE delete", %{conn: conn} do
       conn = delete conn, example_path(conn, :delete)
 
@@ -40,6 +46,12 @@ defmodule ConductorTest do
       assert response(conn, 201)
     end
 
+    test "PATCH update", %{conn: conn} do
+      conn = patch conn, example_path(conn, :update)
+
+      assert response(conn, 403)
+    end
+
     test "DELETE delete", %{conn: conn} do
       conn = delete conn, example_path(conn, :delete)
 
@@ -47,7 +59,7 @@ defmodule ConductorTest do
     end
   end
 
-  describe "conn with root scope" do
+  describe "conn with one of root scopes" do
     setup %{conn: conn} do
       conn = conn |> Plug.Conn.assign(:scopes, ["root"])
 
@@ -66,8 +78,30 @@ defmodule ConductorTest do
       assert response(conn, 201)
     end
 
+    test "PATCH update", %{conn: conn} do
+      conn = patch conn, example_path(conn, :update)
+
+      assert response(conn, 200)
+    end
+
     test "DELETE delete", %{conn: conn} do
       conn = delete conn, example_path(conn, :delete)
+
+      assert response(conn, 200)
+    end
+  end
+
+  describe "multiscopes support" do
+    test "PATCH update with `update1` scope", %{conn: conn} do
+      conn = conn |> Plug.Conn.assign(:scopes, ["update1"])
+      conn = patch conn, example_path(conn, :update)
+
+      assert response(conn, 200)
+    end
+
+    test "PATCH update with `update2` scope", %{conn: conn} do
+      conn = conn |> Plug.Conn.assign(:scopes, ["update2"])
+      conn = patch conn, example_path(conn, :update)
 
       assert response(conn, 200)
     end
