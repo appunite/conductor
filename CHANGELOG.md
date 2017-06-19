@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+* readme and docs improvement
+
 ## 0.2
 
 * **BREAKING** `root_scope` config replaced by `root_scopes`, it has to be list now

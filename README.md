@@ -9,7 +9,7 @@ Simple package for **api** authorization.
 
 * when you need to restrict access to most endpoints when exposing some to third party developers
 * when you don't want to spam your controllers with plugs for every action
-* when you must response according to existing permission system (e.g. scopes in jwt)
+* when you must respond according to existing permission system (e.g. scopes in jwt)
 
 ## When is this package not good?
 
