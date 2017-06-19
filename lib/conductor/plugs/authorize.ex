@@ -1,5 +1,14 @@
 defmodule Conductor.Plugs.Authorize do
-  @moduledoc false
+  @moduledoc """
+    Plug added to controllers by Conductor macro
+
+    It takes list of scopes as option, concatenates it with list of
+    root scopes and check assings inside conn.
+
+    If at least one scope from conn is on list of authorized scopes then
+    action can be performed. Otherwise it will respond according to
+    choosen failure strategy (default: raise `Conductor.Error`)
+  """
 
   @behaviour Plug
 

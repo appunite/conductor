@@ -1,5 +1,13 @@
 defmodule Conductor do
-  @moduledoc false
+  @moduledoc """
+    Conductor main functionality.
+
+    When added to phoenix controller, it will generate
+    all plugs necessary for authorization.
+    ```elixir
+      use Conductor
+    ```
+  """
 
   defmacro __using__(_opts) do
     quote do

@@ -1,5 +1,19 @@
 defmodule Conductor.Plugs.SkipAuthorization do
-  @moduledoc false
+  @moduledoc """
+    Add this plug wherever you need to disable authorization.
+
+    ```elixir
+    pipeline :skip_authorization do
+      plug Conductor.Plugs.SkipAuthorization
+    end
+
+    scope "/public" do
+      pipe_through [:skip_authorization]
+
+      #...
+    end
+    ```
+  """
 
   @behaviour Plug
 

@@ -1,12 +1,27 @@
+[![Build Status](https://travis-ci.org/amatalai/conductor.svg?branch=master)](https://travis-ci.org/amatalai/conductor)
+[![Hex.pm](https://img.shields.io/hexpm/v/conductor.svg?style=flat&colorB=6B4D90)](https://hex.pm/packages/conductor)
+
 # Conductor
 
-Simple package for authorization.
+Simple package for **api** authorization.
+
+## When is this package good?
+
+* when you need to restrict access to most endpoints when exposing some to third party developers
+* when you don't want to spam your controllers with plugs for every action
+* when you must response according to existing permission system (e.g. scopes in jwt)
+
+## When is this package not good?
+
+* when you need authentication
+* when you need authorization for html pages
+* when you need advanced permissions management system
 
 ## Installation
 
 ```elixir
 def deps do
-  [{:conductor, "~> 0.1.0"}]
+  [{:conductor, "~> 0.2.0"}]
 end
 ```
 
@@ -37,9 +52,9 @@ defmodule Controller do
   use Conductor
   use Phoenix.Controller
 
-  plug Conductor.Plugs.Authorize, "scope1" when action in [:create]
-  plug Conductor.Plugs.Authorize, "scope2" when action in [:delete]
-  plug Conductor.Plugs.Authorize, nil when not action in [:create, :delete]
+  plug Conductor.Plugs.Authorize, ["scope1"] when action in [:create]
+  plug Conductor.Plugs.Authorize, ["scope2"] when action in [:delete]
+  plug Conductor.Plugs.Authorize, [] when not action in [:create, :delete]
 
   def index(conn, _params),  do: #...
   def show(conn, _params),   do: #...
@@ -133,9 +148,9 @@ This can be changed by following config
   def action4(conn, _params), do: conn |> send_resp(200, "")
 ```
 
-|         | conn1              | conn2              | conn3             |
-|---------|--------------------|--------------------|-------------------|
-| action1 | :broken_heart: 403 | :green_heart: 200  | :green_heart: 200 |
-| action2 | :green_heart: 200  | :green_heart: 200  | :green_heart: 200 |
-| action3 | :broken_heart: 403 | :broken_heart: 403 | :green_heart: 200 |
-| action4 | :broken_heart: 403 | :broken_heart: 403 | :green_heart: 200 |
+|         | conn1 | conn2 | conn3 |
+|---------| :---: | :---: | :---: |
+| action1 | 403   | 200   | 200   |
+| action2 | 200   | 200   | 200   |
+| action3 | 403   | 403   | 200   |
+| action4 | 403   | 403   | 200   |
