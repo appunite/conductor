@@ -52,7 +52,7 @@ defmodule Conductor.Mixfile do
       files: ~w(lib mix.exs README.md LICENSE),
       maintainers: ["Tobiasz Małecki"],
       licenses: ["Apache 2.0"],
-      links: %{"GitHub" => "https://github.com/amatalai/conductor"}
+      links: %{"GitHub" => "https://github.com/appunite/conductor"}
     ]
   end
 end

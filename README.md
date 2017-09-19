@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/amatalai/conductor.svg?branch=master)](https://travis-ci.org/amatalai/conductor)
+[![Build Status](https://travis-ci.org/appunite/conductor.svg?branch=master)](https://travis-ci.org/appunite/conductor)
 [![Hex.pm](https://img.shields.io/hexpm/v/conductor.svg?style=flat&colorB=6B4D90)](https://hex.pm/packages/conductor)
 
 # Conductor
