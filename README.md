@@ -30,7 +30,7 @@ Basically, this:
 
 ```elixir
 defmodule Controller do
-  use Conductor
+  use Conductor # Important! It needs to be before use Phoenix.Controller
   use Phoenix.Controller
 
   def index(conn, _params),  do: #...
@@ -111,7 +111,7 @@ This can be changed by following config
   #config
   config :conductor,
     root_scopes: ["root_scope"],
-    on_auth_error: :send_resp
+    on_auth_failure: :send_resp
 
   #router
   pipeline :public do
