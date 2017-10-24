@@ -25,11 +25,18 @@ defmodule Conductor.Plugs.Authorize do
       Enum.any?(given_scopes, &(&1 in authorized_scopes)) ->
         conn
       Application.get_env(:conductor, :on_auth_failure) == :send_resp ->
-        conn
-        |> Plug.Conn.send_resp(403, "")
-        |> Plug.Conn.halt()
+        handle_response(conn)
       :else ->
         raise Conductor.Error.new(403, "")
     end
+  end
+
+  defp handle_response(conn) do
+    status = Application.get_env(:conductor, :failure_status, 403)
+    # template = Application.get_env(:conductor, :)
+
+    conn
+    |> Plug.Conn.send_resp(status, "")
+    |> Plug.Conn.halt()
   end
 end
