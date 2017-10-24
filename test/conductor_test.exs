@@ -106,4 +106,14 @@ defmodule ConductorTest do
       assert response(conn, 200)
     end
   end
+
+  describe "custom failure response" do
+    test "custom status code", %{conn: conn} do
+      Application.put_env(:conductor, :failure_status, 418)
+      conn = post conn, example_path(conn, :create)
+
+      assert response(conn, 418)
+      Application.delete_env(:conductor, :failure_status)
+    end
+  end
 end
