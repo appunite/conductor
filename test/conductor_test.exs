@@ -113,7 +113,17 @@ defmodule ConductorTest do
       conn = post conn, example_path(conn, :create)
 
       assert response(conn, 418)
+    after
       Application.delete_env(:conductor, :failure_status)
+    end
+
+    test "custom json template", %{conn: conn} do
+      Application.put_env(:conductor, :failure_template, {Support.ExampleView, "403.json"})
+      conn = post conn, example_path(conn, :create)
+
+      assert json_response(conn, 403)["message"] == "Forbidden"
+    after
+      Application.delete_env(:conductor, :failure_template)
     end
   end
 end

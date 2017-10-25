@@ -6,6 +6,7 @@ defmodule Conductor.Mixfile do
   def project do
     [
       app: :conductor,
+      compilers: compilers(Mix.env),
       deps: deps(),
       description: description(),
       docs: docs(),
@@ -22,13 +23,18 @@ defmodule Conductor.Mixfile do
     ]
   end
 
+  defp compilers(:test), do: [:phoenix] ++ Mix.compilers
+  defp compilers(_), do: Mix.compilers
+
   defp deps do
     [
       {:plug, "~> 1.0"},
 
+      # optional
+      {:phoenix, "~> 1.1", optional: true},
+
       #dev & test
       {:ex_doc,  "~> 0.13",   only: :dev},
-      {:phoenix, "~> 1.1",    only: :test}
     ]
   end
 

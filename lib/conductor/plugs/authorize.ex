@@ -33,10 +33,18 @@ defmodule Conductor.Plugs.Authorize do
 
   defp handle_response(conn) do
     status = Application.get_env(:conductor, :failure_status, 403)
-    # template = Application.get_env(:conductor, :)
 
-    conn
-    |> Plug.Conn.send_resp(status, "")
-    |> Plug.Conn.halt()
+    case Application.get_env(:conductor, :failure_template) do
+      nil ->
+        conn
+        |> Plug.Conn.send_resp(status, "")
+        |> Plug.Conn.halt()
+      {view, template} ->
+        conn
+        |> Plug.Conn.put_status(status)
+        |> Phoenix.Controller.put_view(view)
+        |> Phoenix.Controller.render(template, %{})
+        |> Plug.Conn.halt()
+    end
   end
 end
