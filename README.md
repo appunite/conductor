@@ -155,6 +155,31 @@ This can be changed by following config
 | action3 | 403   | 403   | 200   |
 | action4 | 403   | 403   | 200   |
 
+## Customization
+
+### Global
+
+* Failure response status code
+```elixir
+  # config/config.exs
+  config :conductor, :failure_status, 418
+```
+
+* Failure response body
+```elixir
+  # view
+  defmodule MyApp.Web.ExampleView do
+    use MyApp.Web, :view
+
+    def render("403.json", _assigns) do
+      %{message: "Forbidden"}
+    end
+  end
+
+  # config/config.exs
+  config :conductor, :failure_template, {MyApp.Web.ExampleView, "403.json"}
+```
+
 ## License
 
 Copyright 2017 Tobiasz Małecki <tobiasz.malecki@appunite.com>

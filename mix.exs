@@ -28,10 +28,7 @@ defmodule Conductor.Mixfile do
 
   defp deps do
     [
-      {:plug, "~> 1.0"},
-
-      # optional
-      {:phoenix, "~> 1.1", optional: true},
+      {:phoenix, "~> 1.1"},
 
       #dev & test
       {:ex_doc,  "~> 0.13",   only: :dev},
