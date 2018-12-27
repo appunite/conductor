@@ -20,6 +20,12 @@ defmodule ConductorTest do
       assert response(conn, 403)
     end
 
+    test "PATCH update_all", %{conn: conn} do
+      conn = patch conn, example_path(conn, :update_all)
+
+      assert response(conn, 403)
+    end
+
     test "DELETE delete", %{conn: conn} do
       conn = delete conn, example_path(conn, :delete)
 
@@ -48,6 +54,12 @@ defmodule ConductorTest do
 
     test "PATCH update", %{conn: conn} do
       conn = patch conn, example_path(conn, :update)
+
+      assert response(conn, 403)
+    end
+
+    test "PATCH update_all", %{conn: conn} do
+      conn = patch conn, example_path(conn, :update_all)
 
       assert response(conn, 403)
     end
@@ -84,6 +96,12 @@ defmodule ConductorTest do
       assert response(conn, 200)
     end
 
+    test "PATCH update_all", %{conn: conn} do
+      conn = patch conn, example_path(conn, :update_all)
+
+      assert response(conn, 200)
+    end
+
     test "DELETE delete", %{conn: conn} do
       conn = delete conn, example_path(conn, :delete)
 
@@ -104,6 +122,22 @@ defmodule ConductorTest do
       conn = patch conn, example_path(conn, :update)
 
       assert response(conn, 200)
+    end
+  end
+
+  describe "multiple required scopes at once support" do
+    test "all required scopes provided", %{conn: conn} do
+      conn = conn |> Plug.Conn.assign(:scopes, ["update1", "admin"])
+      conn = patch conn, example_path(conn, :update_all)
+
+      assert response(conn, 200)
+    end
+
+    test "not all required scopes provided", %{conn: conn} do
+      conn = conn |> Plug.Conn.assign(:scopes, ["update1"])
+      conn = patch conn, example_path(conn, :update_all)
+
+      assert response(conn, 403)
     end
   end
 
