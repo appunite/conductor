@@ -21,14 +21,17 @@ defmodule Conductor do
     authorize = Module.get_attribute(env.module, :authorize)
 
     if authorize do
-      mark = cond do
-        Keyword.get(authorize, :scope) && Keyword.get(authorize, :scopes) ->
-          raise Conductor.Error, "cannot use both :scope and :scopes in single @authorization"
-        scope = Keyword.get(authorize, :scope)->
-          %Conductor.Mark{action: name, scopes: [scope]}
-        scopes = Keyword.get(authorize, :scopes) ->
-          %Conductor.Mark{action: name, scopes: scopes}
-      end
+      mark =
+        cond do
+          Keyword.get(authorize, :scope) && Keyword.get(authorize, :scopes) ->
+            raise Conductor.Error, "cannot use both :scope and :scopes in single @authorization"
+
+          scope = Keyword.get(authorize, :scope) ->
+            %Conductor.Mark{action: name, scopes: [scope]}
+
+          scopes = Keyword.get(authorize, :scopes) ->
+            %Conductor.Mark{action: name, scopes: scopes}
+        end
 
       Module.put_attribute(env.module, :conductor_marks, mark)
       Module.delete_attribute(env.module, :authorize)
@@ -39,7 +42,7 @@ defmodule Conductor do
     marks = Module.get_attribute(env.module, :conductor_marks)
 
     plugs =
-      Enum.reduce(marks, [handle_not_marked(marks)], fn(mark, acc) ->
+      Enum.reduce(marks, [handle_not_marked(marks)], fn mark, acc ->
         [handle_mark(mark) | acc]
       end)
 
@@ -58,7 +61,7 @@ defmodule Conductor do
     marked_actions = Enum.map(marks, &Map.get(&1, :action))
 
     quote do
-      plug Conductor.Plugs.Authorize, [] when not var!(action) in unquote(marked_actions)
+      plug Conductor.Plugs.Authorize, [] when not (var!(action) in unquote(marked_actions))
     end
   end
 end

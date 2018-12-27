@@ -6,12 +6,12 @@ defmodule Conductor.Mixfile do
   def project do
     [
       app: :conductor,
-      compilers: compilers(Mix.env),
+      compilers: compilers(Mix.env()),
       deps: deps(),
       description: description(),
       docs: docs(),
       elixir: "~> 1.4",
-      elixirc_paths: elixirc_paths(Mix.env),
+      elixirc_paths: elixirc_paths(Mix.env()),
       package: package(),
       version: @version
     ]
@@ -23,15 +23,14 @@ defmodule Conductor.Mixfile do
     ]
   end
 
-  defp compilers(:test), do: [:phoenix] ++ Mix.compilers
-  defp compilers(_), do: Mix.compilers
+  defp compilers(:test), do: [:phoenix] ++ Mix.compilers()
+  defp compilers(_), do: Mix.compilers()
 
   defp deps do
     [
       {:phoenix, "~> 1.1"},
-
-      #dev & test
-      {:ex_doc,  "~> 0.13",   only: :dev},
+      # dev & test
+      {:ex_doc, "~> 0.13", only: :dev}
     ]
   end
 
@@ -47,7 +46,7 @@ defmodule Conductor.Mixfile do
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp package do
     [
