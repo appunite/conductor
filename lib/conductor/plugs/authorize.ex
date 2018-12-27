@@ -15,7 +15,7 @@ defmodule Conductor.Plugs.Authorize do
     @authorize scope: {"scope1", "scope2"}
     def action(conn, _params), do: ...
     ```
-    In order to perform action both "scope1" and "scop2" must be assigned inside conn.
+    In order to perform action both "scope1" and "scope2" must be assigned inside conn.
   """
 
   @behaviour Plug
