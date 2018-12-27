@@ -3,25 +3,25 @@ defmodule ConductorTest do
 
   describe "conn without any scope" do
     test "GET show", %{conn: conn} do
-      conn = get conn, example_path(conn, :show)
+      conn = get(conn, example_path(conn, :show))
 
       assert response(conn, 200)
     end
 
     test "POST create", %{conn: conn} do
-      conn = post conn, example_path(conn, :create)
+      conn = post(conn, example_path(conn, :create))
 
       assert response(conn, 403)
     end
 
     test "PATCH update", %{conn: conn} do
-      conn = patch conn, example_path(conn, :update)
+      conn = patch(conn, example_path(conn, :update))
 
       assert response(conn, 403)
     end
 
     test "DELETE delete", %{conn: conn} do
-      conn = delete conn, example_path(conn, :delete)
+      conn = delete(conn, example_path(conn, :delete))
 
       assert response(conn, 403)
     end
@@ -35,25 +35,25 @@ defmodule ConductorTest do
     end
 
     test "GET show", %{conn: conn} do
-      conn = get conn, example_path(conn, :show)
+      conn = get(conn, example_path(conn, :show))
 
       assert response(conn, 200)
     end
 
     test "POST create", %{conn: conn} do
-      conn = post conn, example_path(conn, :create)
+      conn = post(conn, example_path(conn, :create))
 
       assert response(conn, 201)
     end
 
     test "PATCH update", %{conn: conn} do
-      conn = patch conn, example_path(conn, :update)
+      conn = patch(conn, example_path(conn, :update))
 
       assert response(conn, 403)
     end
 
     test "DELETE delete", %{conn: conn} do
-      conn = delete conn, example_path(conn, :delete)
+      conn = delete(conn, example_path(conn, :delete))
 
       assert response(conn, 403)
     end
@@ -67,25 +67,25 @@ defmodule ConductorTest do
     end
 
     test "GET show", %{conn: conn} do
-      conn = get conn, example_path(conn, :show)
+      conn = get(conn, example_path(conn, :show))
 
       assert response(conn, 200)
     end
 
     test "POST create", %{conn: conn} do
-      conn = post conn, example_path(conn, :create)
+      conn = post(conn, example_path(conn, :create))
 
       assert response(conn, 201)
     end
 
     test "PATCH update", %{conn: conn} do
-      conn = patch conn, example_path(conn, :update)
+      conn = patch(conn, example_path(conn, :update))
 
       assert response(conn, 200)
     end
 
     test "DELETE delete", %{conn: conn} do
-      conn = delete conn, example_path(conn, :delete)
+      conn = delete(conn, example_path(conn, :delete))
 
       assert response(conn, 200)
     end
@@ -94,14 +94,14 @@ defmodule ConductorTest do
   describe "multiscopes support" do
     test "PATCH update with `update1` scope", %{conn: conn} do
       conn = conn |> Plug.Conn.assign(:scopes, ["update1"])
-      conn = patch conn, example_path(conn, :update)
+      conn = patch(conn, example_path(conn, :update))
 
       assert response(conn, 200)
     end
 
     test "PATCH update with `update2` scope", %{conn: conn} do
       conn = conn |> Plug.Conn.assign(:scopes, ["update2"])
-      conn = patch conn, example_path(conn, :update)
+      conn = patch(conn, example_path(conn, :update))
 
       assert response(conn, 200)
     end
@@ -110,7 +110,7 @@ defmodule ConductorTest do
   describe "custom failure response" do
     test "custom status code", %{conn: conn} do
       Application.put_env(:conductor, :failure_status, 418)
-      conn = post conn, example_path(conn, :create)
+      conn = post(conn, example_path(conn, :create))
 
       assert response(conn, 418)
     after
@@ -119,7 +119,7 @@ defmodule ConductorTest do
 
     test "custom json template", %{conn: conn} do
       Application.put_env(:conductor, :failure_template, {Support.ExampleView, "403.json"})
-      conn = post conn, example_path(conn, :create)
+      conn = post(conn, example_path(conn, :create))
 
       assert json_response(conn, 403)["message"] == "Forbidden"
     after

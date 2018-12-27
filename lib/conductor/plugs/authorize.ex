@@ -15,6 +15,7 @@ defmodule Conductor.Plugs.Authorize do
   def init(scopes), do: scopes
 
   def call(%Plug.Conn{assigns: %{conductor_skip_authorization: true}} = conn, _scope), do: conn
+
   def call(%Plug.Conn{} = conn, scopes) do
     root_scopes = Application.get_env(:conductor, :root_scopes, [])
 
@@ -24,8 +25,10 @@ defmodule Conductor.Plugs.Authorize do
     cond do
       Enum.any?(given_scopes, &(&1 in authorized_scopes)) ->
         conn
+
       Application.get_env(:conductor, :on_auth_failure) == :send_resp ->
         handle_response(conn)
+
       :else ->
         raise Conductor.Error.new(403, "")
     end
@@ -39,6 +42,7 @@ defmodule Conductor.Plugs.Authorize do
         conn
         |> Plug.Conn.send_resp(status, "")
         |> Plug.Conn.halt()
+
       {view, template} ->
         conn
         |> Plug.Conn.put_status(status)
