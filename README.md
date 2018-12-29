@@ -39,7 +39,10 @@ defmodule Controller do
   def show(conn, _params),   do: #...
 
   @authorize scope: "scope1"
-  def create(conn, _params)  do: #...
+  def create(conn, _params), do: #...
+
+  @authorize scope: {"scope1", "scope2"}
+  def update(conn, _params), do: #... 
 
   @authorize scope: "scope2"
   def delete(conn, _params), do: #...
@@ -54,12 +57,14 @@ defmodule Controller do
   use Phoenix.Controller
 
   plug Conductor.Plugs.Authorize, ["scope1"] when action in [:create]
+  plug Conductor.Plugs.Authorize, [{"scope1", "scope2"}] when action in [:update]
   plug Conductor.Plugs.Authorize, ["scope2"] when action in [:delete]
-  plug Conductor.Plugs.Authorize, [] when not action in [:create, :delete]
+  plug Conductor.Plugs.Authorize, [] when not action in [:create, :update, :delete]
 
   def index(conn, _params),  do: #...
   def show(conn, _params),   do: #...
   def create(conn, _params), do: #...
+  def update(conn, _params), do: #... 
   def delete(conn, _params), do: #...
 end
 ```
@@ -120,21 +125,23 @@ This can be changed by following config
   end
 
   scope "/", Example do
-    get "/1", Controller, :action1
+    get "/2", Controller, :action2
     get "/3", Controller, :action3
     get "/4", Controller, :action4
+    get "/5", Controller, :action5
   end
 
   scope "/", Example do
     pipe_through [:public]
 
-    get "/2", Controller, :action2
+    get "/1", Controller, :action1
   end
 
   #conns
   conn1 = Phoenix.ConnTest.build_conn()
-  conn2 = conn1 |> Plug.Conn.assign(:scopes, ["scope1", "scope2"])
-  conn3 = conn1 |> Plug.Conn.assign(:scopes, ["root_scope"])
+  conn2 = conn1 |> Plug.Conn.assign(:scopes, ["scope1"])
+  conn3 = conn1 |> Plug.Conn.assign(:scopes, ["scope1", "scope2"])
+  conn4 = conn1 |> Plug.Conn.assign(:scopes, ["root_scope"])
 
   #endpoints
   @authorize scope: "scope1"
@@ -143,18 +150,23 @@ This can be changed by following config
   @authorize scope: "scope2"
   def action2(conn, _params), do: conn |> send_resp(200, "")
 
+  @authorize scope: {"scope1", "scope2}
   def action3(conn, _params), do: conn |> send_resp(200, "")
 
-  @authorize scopes: ["other", "unused"]
   def action4(conn, _params), do: conn |> send_resp(200, "")
+
+  @authorize scopes: ["other", "unused"]
+  def action5(conn, _params), do: conn |> send_resp(200, "")
+
 ```
 
-|         | conn1 | conn2 | conn3 |
-|---------| :---: | :---: | :---: |
-| action1 | 403   | 200   | 200   |
-| action2 | 200   | 200   | 200   |
-| action3 | 403   | 403   | 200   |
-| action4 | 403   | 403   | 200   |
+|         | conn1 | conn2 | conn3 | conn4 |
+|---------| :---: | :---: | :---: | :---: |
+| action1 | 200   | 200   | 200   | 200   |
+| action2 | 403   | 200   | 200   | 200   |
+| action3 | 403   | 403   | 200   | 200   |
+| action4 | 403   | 403   | 403   | 200   |
+| action5 | 403   | 403   | 403   | 200   |
 
 ## Customization
 
