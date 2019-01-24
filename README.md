@@ -21,7 +21,7 @@ Simple package for **api** authorization.
 
 ```elixir
 def deps do
-  [{:conductor, "~> 0.2.0"}]
+  [{:conductor, "~> 0.4.0"}]
 end
 ```
 
