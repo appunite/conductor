@@ -13,6 +13,8 @@ defmodule Conductor.Mixfile do
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env()),
       package: package(),
+      source_ref: @version,
+      source_url: "https://github.com/appunite/conductor",
       version: @version
     ]
   end
