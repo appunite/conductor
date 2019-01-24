@@ -31,8 +31,8 @@ defmodule Conductor.Mixfile do
   defp deps do
     [
       {:phoenix, "~> 1.1"},
-      # dev & test
-      {:ex_doc, "~> 0.13", only: :dev}
+      # docs
+      {:ex_doc, "~> 0.19", only: :docs}
     ]
   end
 
