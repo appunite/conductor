@@ -13,7 +13,6 @@ defmodule Conductor.Mixfile do
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env()),
       package: package(),
-      source_ref: @version,
       source_url: "https://github.com/appunite/conductor",
       version: @version
     ]
@@ -32,7 +31,7 @@ defmodule Conductor.Mixfile do
     [
       {:phoenix, "~> 1.1"},
       # docs
-      {:ex_doc, "~> 0.19", only: :docs}
+      {:ex_doc, "~> 0.19", only: :dev}
     ]
   end
 
@@ -43,7 +42,8 @@ defmodule Conductor.Mixfile do
   defp docs do
     [
       extras: ["README.md", "CHANGELOG.md"],
-      main: "readme"
+      main: "readme",
+      source_ref: @version
     ]
   end
 
