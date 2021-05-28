@@ -27,10 +27,10 @@ defmodule Conductor do
             raise Conductor.Error, "cannot use both :scope and :scopes in single @authorization"
 
           scope = Keyword.get(authorize, :scope) ->
-            %Conductor.Mark{action: name, scopes: [scope]}
+            %Conductor.Mark{action: name, scopes: Macro.escape([scope])}
 
           scopes = Keyword.get(authorize, :scopes) ->
-            %Conductor.Mark{action: name, scopes: scopes}
+            %Conductor.Mark{action: name, scopes: Macro.escape(scopes)}
         end
 
       Module.put_attribute(env.module, :conductor_marks, mark)

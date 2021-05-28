@@ -16,7 +16,7 @@ defmodule Support.ExampleController do
     conn |> send_resp(200, "")
   end
 
-  @authorize scope: {"update1", "admin"}
+  @authorize scope: {"update1", "admin", "bulk"}
   def update_all(conn, _params) do
     conn |> send_resp(200, "")
   end

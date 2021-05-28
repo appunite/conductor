@@ -127,7 +127,7 @@ defmodule ConductorTest do
 
   describe "multiple required scopes at once support" do
     test "all required scopes provided", %{conn: conn} do
-      conn = conn |> Plug.Conn.assign(:scopes, ["update1", "admin"])
+      conn = conn |> Plug.Conn.assign(:scopes, ["update1", "admin", "bulk"])
       conn = patch(conn, example_path(conn, :update_all))
 
       assert response(conn, 200)
