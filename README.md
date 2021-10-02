@@ -1,21 +1,20 @@
 # Conductor
 
-[![Build Status](https://travis-ci.org/appunite/conductor.svg?branch=master)](https://travis-ci.org/appunite/conductor)
-[![Hex.pm](https://img.shields.io/hexpm/v/conductor.svg?style=flat&colorB=6B4D90)](https://hex.pm/packages/conductor)
+[![Build Status](https://github.com/appunite/conductor/workflows/Test/badge.svg?branch=master)](https://github.com/appunite/conductor/actions) [![Hex.pm](https://img.shields.io/hexpm/v/conductor.svg?style=flat&colorB=6B4D90)](https://hex.pm/packages/conductor)
 
 Simple package for **api** authorization.
 
 ## When is this package good
 
-* when you need to restrict access to most endpoints when exposing some to third party developers
-* when you don't want to spam your controllers with plugs for every action
-* when you must respond according to existing permission system (e.g. scopes in jwt)
+- when you need to restrict access to most endpoints when exposing some to third party developers
+- when you don't want to spam your controllers with plugs for every action
+- when you must respond according to existing permission system (e.g. scopes in jwt)
 
 ## When is this package not good
 
-* when you need authentication
-* when you need authorization for html pages
-* when you need advanced permissions management system
+- when you need authentication
+- when you need authorization for html pages
+- when you need advanced permissions management system
 
 ## Installation
 
@@ -157,29 +156,26 @@ This can be changed by following config
 
   @authorize scopes: ["other", "unused"]
   def action5(conn, _params), do: conn |> send_resp(200, "")
-
 ```
 
-|         | conn1 | conn2 | conn3 | conn4 |
-|---------| :---: | :---: | :---: | :---: |
-| action1 | 200   | 200   | 200   | 200   |
-| action2 | 403   | 200   | 200   | 200   |
-| action3 | 403   | 403   | 200   | 200   |
-| action4 | 403   | 403   | 403   | 200   |
-| action5 | 403   | 403   | 403   | 200   |
+```
+    | conn1 | conn2 | conn3 | conn4
+```
+
+------- | :---: | :---: | :---: | :---: action1 | 200 | 200 | 200 | 200 action2 | 403 | 200 | 200 | 200 action3 | 403 | 403 | 200 | 200 action4 | 403 | 403 | 403 | 200 action5 | 403 | 403 | 403 | 200
 
 ## Customization
 
 ### Global
 
-* Failure response status code
+- Failure response status code
 
   ```elixir
     # config/config.exs
     config :conductor, :failure_status, 418
   ```
 
-* Failure response body
+- Failure response body
 
   ```elixir
     # view
@@ -197,16 +193,10 @@ This can be changed by following config
 
 ## License
 
-Copyright 2017-2019 Tobiasz Małecki <tobiasz.malecki@appunite.com>
+Copyright 2017-2021 Tobiasz Małecki [tobiasz.malecki@appunite.com](mailto:tobiasz.malecki@appunite.com)
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
 <http://www.apache.org/licenses/LICENSE-2.0>
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
