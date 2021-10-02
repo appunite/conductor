@@ -24,7 +24,8 @@ defmodule Conductor do
       mark =
         cond do
           Keyword.get(authorize, :scope) && Keyword.get(authorize, :scopes) ->
-            raise Conductor.Error, "cannot use both :scope and :scopes in single @authorization"
+            raise Conductor.Error,
+                  "cannot use both :scope and :scopes in single @authorization"
 
           scope = Keyword.get(authorize, :scope) ->
             %Conductor.Mark{action: name, scopes: Macro.escape([scope])}
@@ -61,7 +62,7 @@ defmodule Conductor do
     marked_actions = Enum.map(marks, &Map.get(&1, :action))
 
     quote do
-      plug Conductor.Plugs.Authorize, [] when not (var!(action) in unquote(marked_actions))
+      plug Conductor.Plugs.Authorize, [] when var!(action) not in unquote(marked_actions)
     end
   end
 end
